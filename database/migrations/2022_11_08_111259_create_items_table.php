@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('price');
             $table->text('description');
+            $table->unsignedBigInteger('orders')->default(0);
             $table->unsignedBigInteger('menu_id')->nullable();
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
             $table->timestamps();

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('address');
             $table->unsignedBigInteger('total_orders')->default(0);
+            $table->boolean('active_state');
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();

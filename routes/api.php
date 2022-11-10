@@ -19,8 +19,11 @@ use App\Http\Controllers\Api\HomeController;
 
 Route::controller(AuthController::class)->group(function(){
     Route::post('login', 'login');
-    Route::post('/logout','logout');
 });
+
+Route::group(['middleware' => ['auth:sanctum']], function() {    
+    Route::post('logout',   [AuthController::class, 'logout']);
+  });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

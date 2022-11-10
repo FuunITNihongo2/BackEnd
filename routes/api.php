@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\API\HomeController;
+use App\Http\Controllers\API\BoothController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('home', HomeController::class);
+Route::resource('booth', BoothController::class);

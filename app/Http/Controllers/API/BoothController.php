@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Booth;
 use App\Http\Requests\StoreBoothRequest;
 use App\Http\Requests\UpdateBoothRequest;
@@ -15,7 +16,14 @@ class BoothController extends Controller
      */
     public function index()
     {
-        //
+        $booths = Booth::whereNotNull('owner_id')
+                    ->where('active_state',true)
+                    ->orderBy('total_orders')
+                    ->get();
+        $response = [
+            'list of booths' => $booths
+        ];
+        return response()->json($response, 200);
     }
 
     /**

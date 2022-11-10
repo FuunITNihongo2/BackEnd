@@ -22,7 +22,8 @@ class AuthController extends BaseController
         { 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('MyApp')->plainTextToken; 
-            $success['name'] =  $user->name;
+            $success['fullname'] =  $user->fullname;
+            $success['nickname'] =  $user->nickname;
    
             return $this->sendResponse($success, 'User login successfully.');
         } 

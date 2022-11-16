@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\BoothController;
+use App\Http\Controllers\API\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\API\BoothController;
 
 Route::controller(AuthController::class)->group(function(){
     Route::post('login', 'login');
+    Route::post('invite', 'invite')->name('invite');
+    Route::get('accept/{token}', 'accept')->name('accept');
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {    

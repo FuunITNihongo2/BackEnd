@@ -35,3 +35,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('home', HomeController::class);
 Route::resource('booth', BoothController::class);
+Route::get('booth/{booth}/item', [BoothController::class,'showItem'])->name('showBoothItem');

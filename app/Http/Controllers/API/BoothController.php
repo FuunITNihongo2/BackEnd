@@ -55,7 +55,28 @@ class BoothController extends Controller
      */
     public function show(Booth $booth)
     {
-        //
+        $booth->load('menus','menus.items');
+        $response = [
+            'booth' => $booth,
+            // 'menu' => $booth->menus,
+            // 'items' => $booth->menus->items
+        ];
+        return response()->json($response, 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Booth  $booth
+     * @return \Illuminate\Http\Response
+     */
+    public function showItem(Booth $booth)
+    {
+        $booth->load('menus','menus.items');
+        $response = [
+            'items' => $booth->menus->items
+        ];
+        return response()->json($response, 200);
     }
 
     /**

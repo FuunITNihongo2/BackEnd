@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     use HasFactory;
+    public function menus()
+    {
+        return $this->belongsTo(Menu::class);
+    }
 }

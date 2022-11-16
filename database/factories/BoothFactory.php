@@ -17,7 +17,9 @@ class BoothFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'address' => $this->faker->address(),
+            'active_state' => 1,
         ];
     }
 }

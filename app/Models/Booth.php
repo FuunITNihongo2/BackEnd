@@ -10,10 +10,14 @@ class Booth extends Model
     use HasFactory;
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'id', 'owner_id');
     }
     public function menus()
     {
         return $this->hasOne(Menu::class);
+    }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

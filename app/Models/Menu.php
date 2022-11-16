@@ -16,4 +16,8 @@ class Menu extends Model
     {
         return $this->hasMany(Item::class);
     }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

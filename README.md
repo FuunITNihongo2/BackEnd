@@ -1,66 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Server of QuanLyBanHang's application
+# demo
+ MangMT Project - 3rd Year
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Create new database
 
-## About Laravel
+1. trường hợp muốn nâng phiên bản database hiện tại
+```
+php artisan migrate
+```
+2. trường hợp muốn tạo mới lại hoàn toàn *bỏ toàn bộ các bảng hiện có và tạo lại hoàn toàn*
+```
+php artisan migrate:fresh
+```
+2. thêm dữ liệu mẫu cho database
+```
+php artisan db:seed
+```
+hoặc
+```
+php artisan migrate:fresh --seed
+```
+# Github workflow
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Khi bắt đầu dự án cần fork repo **Multilevel-Association/QuanLyBanHangAPI** về
+- Tiếp đó tiên hành clone code từ repo đã fork nói trên **[username]/MangmtPrj**
+- Sau khi clone sẽ di chuyển vào folder vừa clone để add thêm repo chính của dự án **Multilevel-Association/QuanLyBanHangAPI** với lệnh sau nếu sử dụng SSH key:
+```
+git remote add origin git@github.com:Multilevel-Association/QuanLyBanHangAPI
+```
+hoặc nếu sử dụng https
+```
+git remote add origin https://github.com/Multilevel-Association/QuanLyBanHangAPI
+```
+- Branch chính của dự án là **main**
+- Mỗi tính năng mới hoặc bug fix mới sẽ làm theo flow như sau
+1. Đảm bảo code mới nhất ở nhánh develop dưới local tương đương với nhánh mới nhất trên server bằng cách chạy 2 lệnh:
+```
+git checkout main
+git pull origin main
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2. Checkout một nhánh mới cho tính nắng cần làm
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```
+git checkout -b feat/login
+```
 
-## Learning Laravel
+3. Sau khi code xong tiến thành commit code
+```
+git add .
+git commit -m "feat: login"
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4. Giả sử sau khi code xong tính năng login trong nhánh *feat/login* nói trên và gửi chuẩn bị gửi pull request mà thấy branch main trên server có code mới của các bạn khác thì cần chạy lệnh như sau trước khi tạo pull request:
+```
+git checkout main
+git pull origin main
+git checkout feat/login
+git rebase main
+```
+*Sau khi rebase phát hiện có conflict thì chủ động xử lý
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+*Trường hợp nếu nhánh main trên repo chính không có code mới thì có thể bỏ qua bước 4
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5. Push nhánh **feat/login** vừa làm lên repo fork về:
+```
+git push origin feat/login
+```
 
-## Laravel Sponsors
+6. Tạo pull request từ branch nói trên trong repo fork về đến branch develop trong repo chính
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+=> Quá trình nói trên được lặp lại trong toàn bộ chu trình phát triển của dự án
+# Setup Laravel environment
+```
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:NGSZItJHNUzstH2bRZ/bo/ZwInvCwayBPWHX/IELK2c=
+APP_DEBUG=true
+APP_URL=http://localhost
 
-### Premium Partners
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=itnihongo2
+DB_USERNAME=root
+DB_PASSWORD=
 
-## Contributing
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+MEMCACHED_HOST=127.0.0.1
 
-## Code of Conduct
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 
-## Security Vulnerabilities
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_HOST=
+PUSHER_PORT=443
+PUSHER_SCHEME=https
+PUSHER_APP_CLUSTER=mt1
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+VITE_PUSHER_HOST="${PUSHER_HOST}"
+VITE_PUSHER_PORT="${PUSHER_PORT}"
+VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+```

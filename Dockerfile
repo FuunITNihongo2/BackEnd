@@ -22,4 +22,4 @@ CMD sh /app/docker/startup.sh
 RUN chmod +x /app/docker/migration.sh
 
 # This will run the shell file at the time when container is up-and-running successfully (and NOT at the BUILD time)
-ENTRYPOINT ["/var/www/html/db-migration.sh"]
+ENTRYPOINT ["/app/docker/migration.sh"]

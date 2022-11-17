@@ -22,15 +22,15 @@ php artisan migrate:fresh --seed
 ```
 # Github workflow
 
-- Khi bắt đầu dự án cần fork repo **Multilevel-Association/QuanLyBanHangAPI** về
+- Khi bắt đầu dự án cần fork repo **FuunITNihongo2/BackEnd** về
 - Tiếp đó tiên hành clone code từ repo đã fork nói trên **[username]/MangmtPrj**
-- Sau khi clone sẽ di chuyển vào folder vừa clone để add thêm repo chính của dự án **Multilevel-Association/QuanLyBanHangAPI** với lệnh sau nếu sử dụng SSH key:
+- Sau khi clone sẽ di chuyển vào folder vừa clone để add thêm repo chính của dự án **FuunITNihongo2/BackEnd** với lệnh sau nếu sử dụng SSH key:
 ```
-git remote add origin git@github.com:Multilevel-Association/QuanLyBanHangAPI
+git remote add origin git@github.com:FuunITNihongo2/BackEnd.git
 ```
 hoặc nếu sử dụng https
 ```
-git remote add origin https://github.com/Multilevel-Association/QuanLyBanHangAPI
+git remote add origin https://github.com/FuunITNihongo2/BackEnd.git
 ```
 - Branch chính của dự án là **main**
 - Mỗi tính năng mới hoặc bug fix mới sẽ làm theo flow như sau

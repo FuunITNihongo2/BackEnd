@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 
 class AuthController extends BaseController
 {
+    public function getUsers(){
+        return User::all();
+    }
     /**
      * Login api
      *

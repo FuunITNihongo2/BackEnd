@@ -20,6 +20,7 @@ use App\Http\Controllers\API\RegisterController;
 */
 
 Route::controller(AuthController::class)->group(function(){
+    Route::get('/allUser', 'getUsers');
     Route::post('login', 'login');
     Route::post('invite', 'invite')->name('invite');
     Route::get('accept/{token}', 'accept')->name('accept');

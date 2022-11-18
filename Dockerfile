@@ -20,3 +20,9 @@ CMD sh /app/docker/startup.sh
 
 # Make the file executable, or use "chmod 777" instead of "chmod +x"
 RUN chmod +x /app/migration.sh
+
+CMD sudo apt install php-mysql
+CMD sudo apt-get install -y php-mysql
+
+# This will run the shell file at the time when container is up-and-running successfully (and NOT at the BUILD time)
+# ENTRYPOINT ["/app/migration.sh"]

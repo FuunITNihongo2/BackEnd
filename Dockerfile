@@ -7,6 +7,8 @@ RUN mkdir -p /run/nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
+# RUN docker-php-ext-install pdo pdo_mysql
+# RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
 RUN mkdir -p /app
 COPY . /app

@@ -20,6 +20,3 @@ CMD sh /app/docker/startup.sh
 
 # Make the file executable, or use "chmod 777" instead of "chmod +x"
 RUN chmod +x /app/migration.sh
-
-# This will run the shell file at the time when container is up-and-running successfully (and NOT at the BUILD time)
-ENTRYPOINT ["/app/migration.sh"]

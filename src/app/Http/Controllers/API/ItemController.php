@@ -8,6 +8,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -37,7 +38,7 @@ class ItemController extends Controller
      * @param  \App\Http\Requests\StoreItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         $data = $request->only(['name', 'price', 'description', 'menu_id']);
         // pass the validate
@@ -47,20 +48,18 @@ class ItemController extends Controller
                 'price' => $data['price'],
                 'description' => $data['description'],
                 'menu_id' => $data['menu_id'],
-                "created_at" =>  \Carbon\Carbon::now(),
-                "updated_at" => \Carbon\Carbon::now(),
+                'created_at' =>  \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ]);
-            $uploadFile = $request->file('image');
-            $file_name = $uploadFile->hashName();
-            $uploadFile->storeAs('public/image/items', $file_name);
-            $path = 'storage/image/items/'.$file_name;
+            $link = Storage::disk('s3')->put('images/items', $request->file('image'));
+            $link = Storage::disk('s3')->url($link);
             if(Image::insert([
                 'name' => $item->name.'_image',
                 'imageable_id'=> $item->id,
                 'imageable_type' => 'App\Models\Item',
-                'link' => $path,
-                "created_at" =>  \Carbon\Carbon::now(),
-                "updated_at" => \Carbon\Carbon::now(),
+                'link' => $link,
+                'created_at' =>  \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ])){
                 return ['message','success'];
             }

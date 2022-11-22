@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\BoothController;
+use App\Http\Controllers\API\ItemController;
 use App\Http\Controllers\API\RegisterController;
 
 /*
@@ -37,3 +38,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('home', HomeController::class);
 Route::resource('booth', BoothController::class);
 Route::get('booth/{booth}/item', [BoothController::class,'showItem'])->name('showBoothItem');
+Route::post('item', [ItemController::class,'store'])->middleware('auth:sanctum')->name('addItem');

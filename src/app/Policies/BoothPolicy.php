@@ -18,7 +18,8 @@ class BoothPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        //Anyone
+        return TRUE;
     }
 
     /**
@@ -30,7 +31,8 @@ class BoothPolicy
      */
     public function view(User $user, Booth $booth)
     {
-        //
+        //Anyone
+        return TRUE;
     }
 
     /**
@@ -41,7 +43,9 @@ class BoothPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role->permissions->contains(function ($permission){
+            return $permission->name == config('define.permission.booth.add');
+        });
     }
 
     /**
@@ -53,7 +57,9 @@ class BoothPolicy
      */
     public function update(User $user, Booth $booth)
     {
-        //
+        return $user->role->permissions->contains(function ($permission){
+            return $permission->name == config('define.permission.booth.update');
+        });
     }
 
     /**
@@ -65,7 +71,9 @@ class BoothPolicy
      */
     public function delete(User $user, Booth $booth)
     {
-        //
+        return $user->role->permissions->contains(function ($permission){
+            return $permission->name == config('define.permission.booth.delete');
+        });
     }
 
     /**

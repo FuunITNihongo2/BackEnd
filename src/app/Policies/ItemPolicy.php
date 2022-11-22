@@ -18,7 +18,11 @@ class ItemPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        //Anyone
+        return TRUE;
+        // return $user->role->permissions->contains(function ($permission){
+        //     return $permission->name == config('define.permission.item.view_list');
+        // });
     }
 
     /**
@@ -30,7 +34,11 @@ class ItemPolicy
      */
     public function view(User $user, Item $item)
     {
-        //
+        //Anyone
+        return TRUE;
+        // return $user->role->permissions->contains(function ($permission){
+        //     return $permission->name == config('define.permission.item.view_list');
+        // });
     }
 
     /**
@@ -41,7 +49,9 @@ class ItemPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role->permissions->contains(function ($permission){
+            return $permission->name == config('define.permission.item.add');
+        });
     }
 
     /**
@@ -53,7 +63,9 @@ class ItemPolicy
      */
     public function update(User $user, Item $item)
     {
-        //
+        return $user->role->permissions->contains(function ($permission){
+            return $permission->name == config('define.permission.item.update');
+        });
     }
 
     /**
@@ -65,7 +77,9 @@ class ItemPolicy
      */
     public function delete(User $user, Item $item)
     {
-        //
+        return $user->role->permissions->contains(function ($permission){
+            return $permission->name == config('define.permission.item.delete');
+        });
     }
 
     /**

@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Booth extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'address',
+        'active_state',
+    ];
     public function users()
     {
         return $this->belongsTo(User::class,'id', 'owner_id');

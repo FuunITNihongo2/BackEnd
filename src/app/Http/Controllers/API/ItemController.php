@@ -53,14 +53,16 @@ class ItemController extends Controller
             ]);
             $link = Storage::disk('s3')->put('images/items', $request->file('image'));
             $link = Storage::disk('s3')->url($link);
-            if(Image::insert([
-                'name' => $item->name.'_image',
-                'imageable_id'=> $item->id,
-                'imageable_type' => 'App\Models\Item',
-                'link' => $link,
-                'created_at' =>  \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
-            ])){
+            if(
+                Image::insert([
+                    'name' => $item->name.'_image',
+                    'imageable_id'=> $item->id,
+                    'imageable_type' => 'App\Models\Item',
+                    'link' => $link,
+                    'created_at' =>  \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ])
+            ){
                 return ['message','success'];
             }
             //if insert fail

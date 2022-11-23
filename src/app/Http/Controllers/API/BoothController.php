@@ -120,7 +120,7 @@ class BoothController extends Controller
                 return response()->json($response, 200);
             }
             else{
-                return response()->json(['message' => "Can't find user"], 404);
+                return response()->json(['message' => "Can't find booth"], 404);
             }
         }
         catch(Exception $e){

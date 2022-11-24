@@ -110,7 +110,52 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        //
+        if ($item){
+            $item->load('images');
+            if($request->has('name')){
+                $item->update(['name'=>$request->name]);
+            }
+            if($request->has('price')){
+                $item-->update(['price'=>$request->price]);
+            }
+            if($request->has('description')){
+                $item-->update(['description'=>$request->description]);
+            }
+            if($request->has('updated_at')){
+                $item-->update(['updated_at'=>$request->updated_at]);
+            }
+            if($request->has('created_at')){
+                $item-->update(['created_at'=>$request->created_at]);
+            }
+
+            if ($request->hasFile('image')) {
+                $image = Image::where('imageable_id',$item->id)
+                            ->where('imageable_type','App\Models\Item')
+                            ->first();
+                if(strlen($image) > 0){
+                    $element = explode("/", $image->link);
+                    $path = 'images/items/'.$element[5];
+                    Storage::disk('s3')->delete($path);
+                }
+                $link = Storage::disk('s3')->put('images/items', $request->file('image'));
+                $link = Storage::disk('s3')->url($link);
+                $image->update([
+                    'name' => $booth->name.'_image',
+                    'imageable_id'=> $booth->id,
+                    'imageable_type' => 'App\Models\Item',
+                    'link' => $link,
+                    'created_at' =>  \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ]);
+            }
+            $response = [
+                'data' => $item
+            ];
+            return response()->json($response, 200);
+        }
+        else{
+            return response()->json(['message' => "Item not found!"], 404);
+        }
     }
 
     /**

@@ -19,7 +19,14 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = Item::whereNotNull('menu_id')
+                    ->orderBy('price')
+                    ->get()
+                    ->load('images');
+        $response = [
+            'list of items' => $items
+        ];
+        return response()->json($response, 200);
     }
 
     /**

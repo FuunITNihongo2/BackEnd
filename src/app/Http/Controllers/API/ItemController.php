@@ -166,6 +166,13 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        if($item){
+            $item->delete();
+            $items = Item::all();  
+        }
+        else 
+            return response()->json(['message'=>'Item not found!'], 404);
+        return response()->json($items);
     }
+
 }

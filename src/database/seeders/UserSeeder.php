@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
             'imageable_type' => 'App\Models\User'
         ]);
         User::factory()
-        ->count(50)
+        ->count(10)
         ->create([
             'role_id' => User::ROLE_MANAGER,
         ])

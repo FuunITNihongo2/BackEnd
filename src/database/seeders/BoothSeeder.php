@@ -51,7 +51,7 @@ class BoothSeeder extends Seeder
                     'name' => $faker->name,
                     'booth_id' => $booth->id,
                 ]);
-                $link = Storage::disk('s3')->put('images/menus'.$menu->id.'.jpg', file_get_contents(storage_path($image[rand(0,count($image)-1)])));
+                $link = Storage::disk('s3')->put('images/menus/'.$menu->id.'.jpg', file_get_contents(storage_path($image[rand(0,count($image)-1)])));
                 $link = Storage::disk('s3')->url($link);
                 Image::insert([
                     'name' => $menu->name,  
@@ -60,7 +60,7 @@ class BoothSeeder extends Seeder
                     'imageable_type' => 'App\Models\Menus'
                 ]);
     
-                Item::factory(20)->create()->each(function($item) use ($menu)
+                Item::factory(10)->create()->each(function($item) use ($menu)
                 {
                     $image = ['app\public\image\83930056_p0_master1200.jpg',
                               'app\public\image\86302720_p0_master1200.jpg',
@@ -74,7 +74,7 @@ class BoothSeeder extends Seeder
                               'app\public\image\88020080_p0_master1200.jpg',
                               'app\public\image\88028348_p0_master1200.jpg'];
                     $item->update(['menu_id' => $menu->id]);
-                    $link = Storage::disk('s3')->put('images/items'.$item->id.'.jpg', file_get_contents(storage_path($image[rand(0,count($image)-1)])));
+                    $link = Storage::disk('s3')->put('images/items/'.$item->id.'.jpg', file_get_contents(storage_path($image[rand(0,count($image)-1)])));
                     $link = Storage::disk('s3')->url($link);
                     Image::insert([
                         'name' => $item->name,  

@@ -91,6 +91,28 @@ class AuthController extends BaseController
     }
 
     /**
+     * delete profile api.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteProfile(User $user)
+    {
+        $current = Auth::user();
+        if($current->role_id === User::ROLE_ADMIN){
+            try{
+                $user->delete();
+            }
+            catch(Exception $e){
+                return response()->json(['message' => $e->getMessage()], 400);
+            }
+            return response()->json(['message' => "Delete User Successfully"], 200);
+        }
+        else{
+            return response()->json(['message' => "Permission denied"], 403);
+        }
+    }
+
+    /**
      * invite api
      *
      * @return \Illuminate\Http\Response

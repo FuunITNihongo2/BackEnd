@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Str;
+use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends BaseController
 {
@@ -28,6 +30,7 @@ class AuthController extends BaseController
             $success['token'] =  $user->createToken('MyApp')->plainTextToken; 
             $success['fullname'] =  $user->fullname;
             $success['nickname'] =  $user->nickname;
+            $success['phone_number'] =  $user->phone_number;
             $user->load('role');
             $success['role'] =  $user->role->name;
             return $this->sendResponse($success, 'User login successfully.');
@@ -37,6 +40,56 @@ class AuthController extends BaseController
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         } 
     }
+
+    /**
+     * edit profile api.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editProfile(Request $request)
+    {
+        try{
+            $user = Auth::user();
+            if($request->has('nickname')){
+                $user->update(['nickname'=>$request->nickname]);
+            }
+            if($request->has('fullname')){
+                $user->update(['fullname'=>$request->fullname]);
+            }
+            if($request->has('phone_number')){
+                $user->update(['phone_number'=>$request->phone_number]);
+            }
+            if ($request->hasFile('avatar')) {
+                $image = Image::where('imageable_id',$user->id)
+                            ->where('imageable_type','App\Models\User')
+                            ->first();
+                if(strlen($image) > 0){
+                    $element = explode("/", $image->link);
+                    $path = 'images/avatars/'.$element[5];
+                    Storage::disk('s3')->delete($path);
+                }
+                $link = Storage::disk('s3')->put('images/avatars', $request->file('avatar'));
+                $link = Storage::disk('s3')->url($link);
+                $image->update([
+                    'name' => $user->name.'_avatar',
+                    'imageable_id'=> $user->id,
+                    'imageable_type' => 'App\Models\User',
+                    'link' => $link,
+                    'created_at' =>  \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ]);
+            }
+            $user->load('images');
+            $response = [
+                'data' => $user
+            ];
+            return response()->json($response, 200);
+        }
+        catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
     /**
      * invite api
      *

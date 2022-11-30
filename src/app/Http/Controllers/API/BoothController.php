@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Booth;
 use App\Models\Image;
+use App\Models\Menu;
 use App\Http\Requests\StoreBoothRequest;
 use App\Http\Requests\UpdateBoothRequest;
 use Illuminate\Http\Request;
@@ -67,7 +68,9 @@ class BoothController extends Controller
     public function showItem(Booth $booth)
     {
         $booth->load('menus','menus.items','menus.items.images');
+        $menu = Menu::find($booth->menus->id);
         $response = [
+            'menu' => $menu,
             'items' => $booth->menus->items
         ];
         return response()->json($response, 200);

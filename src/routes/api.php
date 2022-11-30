@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('home', HomeController::class);
 // Route::resource('booth', BoothController::class);
 Route::get('booth', [BoothController::class,'index'])->name('booth.index');
+Route::get('booth/{booth}', [BoothController::class,'show'])->name('booth.show');
 Route::put('booth/{booth}', [BoothController::class,'update'])->name('booth.update');
 Route::get('booth/{booth}/item', [BoothController::class,'showItem'])->name('booth.item');
 Route::post('item', [ItemController::class,'store'])->middleware('auth:sanctum')->name('item.store');

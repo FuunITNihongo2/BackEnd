@@ -8,7 +8,7 @@ use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\BoothController;
 use App\Http\Controllers\API\ItemController;
 use App\Http\Controllers\API\RegisterController;
-
+use App\Http\Controllers\API\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,3 +45,4 @@ Route::post('item', [ItemController::class,'store'])->middleware('auth:sanctum')
 Route::get('showitem', [ItemController::class,'index'])->name('item.index');
 Route::put('updateitem/{item}', [ItemController::class,'update'])->name('item.update');
 Route::put('deleteitem/{item}', [ItemController::class,'destroy'])->name('item.delete');
+Route::get('user/{id}', [UserController::class,'show'])->name('user.showbyid');

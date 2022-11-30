@@ -25,7 +25,7 @@ class BoothController extends Controller
                     ->get()
                     ->load('images');
         $response = [
-            'list of booths' => $booths
+            'booths' => $booths
         ];
         return response()->json($response, 200);
     }

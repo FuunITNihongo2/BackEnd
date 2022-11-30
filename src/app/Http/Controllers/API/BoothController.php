@@ -136,6 +136,12 @@ class BoothController extends Controller
      */
     public function destroy(Booth $booth)
     {
-        //
+        if($booth){
+            $booth->delete();
+            $booths = Booth::all();  
+        }
+        else 
+            return response()->json(['message'=>'Booth not found!'], 404);
+        return response()->json($booths);
     }
 }

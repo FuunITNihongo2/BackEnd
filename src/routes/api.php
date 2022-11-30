@@ -23,14 +23,14 @@ use App\Http\Controllers\API\RegisterController;
 Route::controller(AuthController::class)->group(function(){
     Route::get('/allUser', 'getUsers');
     Route::post('login', 'login');
-    Route::post('invite', 'invite')->name('invite');
     Route::get('accept/{token}', 'accept')->name('accept');
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {    
-    Route::post('logout',   [AuthController::class, 'logout']);
-    Route::put('profile',   [AuthController::class, 'editProfile']);
-    Route::delete('profile/{user}',   [AuthController::class, 'deleteProfile']);
+    Route::post('logout',   [AuthController::class, 'logout'])->name('user.logout');
+    Route::put('profile',   [AuthController::class, 'editProfile'])->name('user.edit');
+    Route::delete('profile/{user}',   [AuthController::class, 'deleteProfile'])->name('user.delete');
+    Route::post('invite', [AuthController::class, 'invite'])->name('user.invite');
   });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

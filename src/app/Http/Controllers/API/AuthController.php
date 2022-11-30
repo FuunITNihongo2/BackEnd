@@ -5,12 +5,14 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
+use App\Models\Image;
+use App\Models\Invite;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Validator;
 use Illuminate\Support\Str;
-use App\Models\Image;
-use Illuminate\Support\Facades\Storage;
+use Mail;
+use Validator;
 
 class AuthController extends BaseController
 {
@@ -121,27 +123,50 @@ class AuthController extends BaseController
     {    
         Validator::make($request->all(),[
             'email' => 'required|email|unique:users',
+            'name' => 'required',
         ]);
-        // validate the incoming request data
-        do {
-            //generate a random string using Laravel's str_random helper
-            $token = str_random();
-            $password = str_random();
-        } //check if the token already exists and if it does, try again
-        while (Invite::where('token', $token)->first());
-        //create a new invite record
-        $invite = Invite::create([
-            'email' => $request->get('email'),
-            'token' => $token,
-            'password' => $password
-        ]);
-        // send the email
-        Mail::to($request->get('email'))->send(new InviteCreated($invite));
-        // redirect back where we came from
-        return ['status', 'verification request sent'];
+
+        
+        $current = Auth::user();
+        if($current->role_id === User::ROLE_ADMIN){
+            // validate the incoming request data
+            do {
+                //generate a random string using Laravel's str_random helper
+                $token = Str::random(16);
+                $password = Str::random(16);
+            } //check if the token already exists and if it does, try again
+            while (Invite::where('token', $token)->first());
+            //create a new invite record
+            $invite = Invite::create([
+                'email' => $request->get('email'),
+                'token' => $token,
+                'password' => $password
+            ]);
+            $message="";
+            $message.="<h1>Hi ".$request->name."</h1>";
+            $message.="<p>Our admin invited you to our website</p>";
+            $message.="<h2>Please verify <a href='http://www.frontend.com/verify/".$token."'>Verify</a> </h2>";
+            $message.="<h3>Your password is: ".$password.", please change it as soon as possible! </h3>";
+            $data = 
+            [
+                'subject' => "Register Validation",
+                'to'      => $request->email,
+            ];
+            // send the email
+            Mail::send(array(), $data, function ($msg) use ($message,$data) 
+            {
+            $msg->to($data['to'])->subject($data['subject'])
+            ->html($message);
+            });
+            // redirect back where we came from
+            return response()->json(['message', 'verification request sent'], 200);
+        }
+        else{
+            return response()->json(['message' => "Permission denied"], 403);
+        }
     }
     /**
-     * accept api
+     * accept register request api
      *
      * @return \Illuminate\Http\Response
      */

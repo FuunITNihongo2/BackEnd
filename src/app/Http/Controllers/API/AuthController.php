@@ -131,12 +131,11 @@ class AuthController extends BaseController
             'email' => 'required|email|unique:users',
             'name' => 'required',
         ]);
-        if((Invite::where('email',$request->email)->first())||(User::where('email',$request->email)->first())){
-            return response()->json(['message' => "Already invited this person!"], 404);
-        }
-        
         $current = Auth::user();
         if($current->role_id === User::ROLE_ADMIN){
+            if((Invite::where('email',$request->email)->first())||(User::where('email',$request->email)->first())){
+                return response()->json(['message' => "Already invited this person!"], 404);
+            }
             // validate the incoming request data
             do {
                 //generate a random string using Laravel's str_random helper

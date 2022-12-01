@@ -29,8 +29,8 @@ class HomeController extends Controller
                     ->get()
                     ->load('images');
         $response = [
-            'most popular booths' => $booths,
-            'most popular items' => $items,
+            'most-popular-booths' => $booths,
+            'most-popular-items' => $items,
         ];
         return response()->json($response, 200);
     }

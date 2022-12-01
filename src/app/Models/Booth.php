@@ -21,7 +21,7 @@ class Booth extends Model
     ];
     public function users()
     {
-        return $this->belongsTo(User::class,'id', 'owner_id');
+        return $this->belongsTo(User::class,'owner_id', 'id');
     }
     public function menus()
     {

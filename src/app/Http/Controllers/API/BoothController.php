@@ -50,7 +50,7 @@ class BoothController extends Controller
      */
     public function show(Booth $booth)
     {
-        $booth->load('menus','menus.items','images');
+        $booth->load('users','menus','menus.items','images');
         $response = [
             'booth' => $booth,
             // 'menu' => $booth->menus,
@@ -67,7 +67,7 @@ class BoothController extends Controller
      */
     public function showItem(Booth $booth)
     {
-        $booth->load('menus','menus.items','menus.items.images');
+        $booth->load('users','menus','menus.items','menus.items.images');
         $menu = Menu::find($booth->menus->id);
         $response = [
             'menu' => $menu,

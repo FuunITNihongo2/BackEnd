@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
 use App\Models\Image;
+use App\Models\Booth;
 use App\Models\Invite;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,11 @@ class AuthController extends BaseController
             $success['fullname'] =  $user->fullname;
             $success['nickname'] =  $user->nickname;
             $success['phone_number'] =  $user->phone_number;
+            $success['avatar'] =  Image::where('imageable_id',$user->id)
+                                    ->where('imageable_type','App\Models\User')
+                                    ->first();
+            $user->load('booth');
+            $success['booth'] =  $user->booth->id;
             $user->load('role');
             $success['role'] =  $user->role->name;
             return $this->sendResponse($success, 'User login successfully.');
@@ -125,7 +131,9 @@ class AuthController extends BaseController
             'email' => 'required|email|unique:users',
             'name' => 'required',
         ]);
-
+        if(Invite::where('email',$request->email)->first()){
+            return response()->json(['message' => "Already invited this person!"], 404);
+        }
         
         $current = Auth::user();
         if($current->role_id === User::ROLE_ADMIN){
@@ -142,6 +150,7 @@ class AuthController extends BaseController
                 'token' => $token,
                 'password' => $password
             ]);
+            
             $message="";
             $message.="<h1>Hi ".$request->name."</h1>";
             $message.="<p>Our admin invited you to our website</p>";

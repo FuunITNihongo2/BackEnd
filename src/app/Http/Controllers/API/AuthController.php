@@ -131,7 +131,7 @@ class AuthController extends BaseController
             'email' => 'required|email|unique:users',
             'name' => 'required',
         ]);
-        if(Invite::where('email',$request->email)->first()){
+        if((Invite::where('email',$request->email)->first())||(User::where('email',$request->email)->first())){
             return response()->json(['message' => "Already invited this person!"], 404);
         }
         

@@ -25,7 +25,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'fullname',
         'email',
         'password',
-        'role_id',
         'phone_number',
         'email_verified_at',
         'remember_token',
@@ -39,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $hidden = [
-        // 'password',
+        'password',
         'remember_token',
     ];
 
@@ -67,6 +66,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }  
     public function images()
     {
-        return $this->morphMany('App\Models\Images', 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

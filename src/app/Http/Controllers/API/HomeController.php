@@ -20,12 +20,10 @@ class HomeController extends Controller
         $booths = Booth::whereNotNull('owner_id')
                     ->where('active_state',true)
                     ->orderBy('total_orders')
-                    ->take(10)
                     ->get()
                     ->load('images');
         // most popular item
         $items = Item::orderBy('orders')
-                    ->take(10)
                     ->get()
                     ->load('images');
         $response = [

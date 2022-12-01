@@ -49,6 +49,27 @@ class AuthController extends BaseController
         } 
     }
 
+    
+    /**
+     * Show profile
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show()
+    {
+        $user = Auth::user();
+        $success['user'] =  $user;
+        $user->load('booth');
+        $success['booth'] =  $user->booth->id;
+        $user->load('role');
+        $success['role'] =  $user->role->name;
+        $user->load('images');
+        $success['avatar'] =  $user->images;
+        return response()->json(['user' => $user], 200);
+        
+    }
+
     /**
      * edit profile api.
      *

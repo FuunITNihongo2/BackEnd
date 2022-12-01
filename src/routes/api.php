@@ -28,6 +28,7 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::group(['middleware' => ['auth:sanctum']], function() {    
     Route::post('logout',   [AuthController::class, 'logout'])->name('user.logout');
+    Route::get('profile', [AuthController::class,'show'])->name('user.show');
     Route::put('profile',   [AuthController::class, 'editProfile'])->name('user.edit');
     Route::delete('profile/{user}',   [AuthController::class, 'deleteProfile'])->name('user.delete');
     Route::post('invite', [AuthController::class, 'invite'])->name('user.invite');
@@ -43,9 +44,8 @@ Route::get('booth', [BoothController::class,'index'])->name('booth.index');
 Route::get('booth/{booth}', [BoothController::class,'show'])->name('booth.show');
 Route::put('booth/{booth}', [BoothController::class,'update'])->name('booth.update');
 Route::get('booth/{booth}/item', [BoothController::class,'showItem'])->name('booth.item');
-Route::put('booth/{booth}', [BoothController::class,'destroy'])->name('booth.delete');
+Route::delete('booth/{booth}', [BoothController::class,'destroy'])->name('booth.delete');
 Route::post('item', [ItemController::class,'store'])->middleware('auth:sanctum')->name('item.store');
-Route::get('showitem', [ItemController::class,'index'])->name('item.index');
-Route::put('updateitem/{item}', [ItemController::class,'update'])->name('item.update');
-Route::put('deleteitem/{item}', [ItemController::class,'destroy'])->name('item.delete');
-Route::get('user/{id}', [UserController::class,'show'])->name('user.showbyid');
+Route::get('item', [ItemController::class,'index'])->name('item.index');
+Route::put('item/{item}', [ItemController::class,'update'])->name('item.update');
+Route::delete('item/{item}', [ItemController::class,'destroy'])->name('item.delete');

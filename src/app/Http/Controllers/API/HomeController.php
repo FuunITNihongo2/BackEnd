@@ -21,11 +21,13 @@ class HomeController extends Controller
                     ->where('active_state',true)
                     ->orderBy('total_orders')
                     ->take(10)
-                    ->get();
+                    ->get()
+                    ->load('images');
         // most popular item
         $items = Item::orderBy('orders')
                     ->take(10)
-                    ->get();
+                    ->get()
+                    ->load('images');
         $response = [
             'most popular booths' => $booths,
             'most popular items' => $items,

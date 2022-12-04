@@ -47,5 +47,6 @@ Route::get('booth/{booth}/item', [BoothController::class,'showItem'])->name('boo
 Route::delete('booth/{booth}', [BoothController::class,'destroy'])->name('booth.delete');
 Route::post('item', [ItemController::class,'store'])->middleware('auth:sanctum')->name('item.store');
 Route::get('item', [ItemController::class,'index'])->name('item.index');
+Route::get('item/{item}', [ItemController::class,'show'])->name('item.show');
 Route::put('item/{item}', [ItemController::class,'update'])->name('item.update');
 Route::delete('item/{item}', [ItemController::class,'destroy'])->name('item.delete');

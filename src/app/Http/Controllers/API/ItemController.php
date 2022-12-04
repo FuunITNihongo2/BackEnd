@@ -88,7 +88,11 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        $item->load('images','menu','menu.booth');
+        $response = [
+            'item' => $item
+        ];
+        return response()->json($response, 200);
     }
 
     /**

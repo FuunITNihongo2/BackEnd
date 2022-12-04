@@ -22,7 +22,7 @@ class ItemController extends Controller
         $items = Item::whereNotNull('menu_id')
                     ->orderBy('price')
                     ->get()
-                    ->load('images','menu','menu.booth');
+                    ->load('images','menu.booth','menu.booth.images');
         $response = [
             'listOfItems' => $items
         ];

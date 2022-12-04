@@ -22,9 +22,9 @@ class ItemController extends Controller
         $items = Item::whereNotNull('menu_id')
                     ->orderBy('price')
                     ->get()
-                    ->load('images');
+                    ->load('images','menu','menu.booth');
         $response = [
-            'list of items' => $items
+            'listOfItems' => $items
         ];
         return response()->json($response, 200);
     }

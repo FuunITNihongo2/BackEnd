@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::put('profile',   [AuthController::class, 'editProfile'])->name('user.edit');
     Route::delete('profile/{user}',   [AuthController::class, 'deleteProfile'])->name('user.delete');
     Route::post('invite', [AuthController::class, 'invite'])->name('user.invite');
+    Route::delete('item/{item}', [ItemController::class,'destroy'])->name('item.delete');
   });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -49,4 +50,3 @@ Route::post('item', [ItemController::class,'store'])->middleware('auth:sanctum')
 Route::get('item', [ItemController::class,'index'])->name('item.index');
 Route::get('item/{item}', [ItemController::class,'show'])->name('item.show');
 Route::put('item/{item}', [ItemController::class,'update'])->name('item.update');
-Route::delete('item/{item}', [ItemController::class,'destroy'])->name('item.delete');

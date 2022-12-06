@@ -171,14 +171,18 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        $user = Auth::user();
+        $item->load('menu','menu.booth','menu.booth.user');
         try{
-            if($item){
-                $item->delete();
-                $items = Item::all();  
+            if($user->id===$item->menu->booth->user->id){
+                if($item){
+                    $item->delete();
+                    $items = Item::all();  
+                }
+                else 
+                    return response()->json(['message'=>'Item not found!'], 404);
+                return response()->json(['message'=>'Item deleted!'], 200);
             }
-            else 
-                return response()->json(['message'=>'Item not found!'], 404);
-            return response()->json(['message'=>'Item deleted!'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 424);
         }

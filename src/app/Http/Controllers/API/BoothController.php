@@ -24,7 +24,7 @@ class BoothController extends Controller
                     ->where('active_state',true)
                     ->orderBy('total_orders')
                     ->get()
-                    ->load('images');
+                    ->load('images', 'users');
         $response = [
             'booths' => $booths
         ];

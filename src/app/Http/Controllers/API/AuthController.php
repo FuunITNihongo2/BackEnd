@@ -30,7 +30,6 @@ class AuthController extends BaseController
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password]))
         { 
             $user = Auth::user();
-            $user->load('booth'); 
             $success['token'] =  $user->createToken('MyApp')->plainTextToken; 
             $success['fullname'] =  $user->fullname;
             $success['nickname'] =  $user->nickname;
@@ -38,8 +37,10 @@ class AuthController extends BaseController
             $success['avatar'] =  Image::where('imageable_id',$user->id)
                                     ->where('imageable_type','App\Models\User')
                                     ->first();
-            $user->load('booth');
-            $success['booth'] =  $user->booth->id;
+            if($user->role === User::ROLE_MANAGER){
+                $user->load('booth');
+                $success['booth'] =  $user->booth->id;
+            }
             $user->load('role');
             $success['role'] =  $user->role->name;
             return $this->sendResponse($success, 'User login successfully.');

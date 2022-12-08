@@ -24,7 +24,7 @@ class BoothController extends Controller
                     ->where('active_state',true)
                     ->orderBy('total_orders')
                     ->get()
-                    ->load('images', 'users');
+                    ->load('users','images');
         $response = [
             'booths' => $booths
         ];
@@ -50,8 +50,9 @@ class BoothController extends Controller
      */
     public function show(Booth $booth)
     {
-        $booth->load('users','menus','menus.items','images');
+        $booth->load('users')->load('menus','menus.items','images');
         $response = [
+            'owner' => $booth->users,
             'booth' => $booth,
             // 'menu' => $booth->menus,
             // 'items' => $booth->menus->items
@@ -67,9 +68,10 @@ class BoothController extends Controller
      */
     public function showItem(Booth $booth)
     {
-        $booth->load('users','menus','menus.items','menus.items.images');
+        $booth->load('users')->load('menus','menus.items','menus.items.images');
         $menu = Menu::find($booth->menus->id);
         $response = [
+            'owner' => $booth->users,
             'menu' => $menu,
             'items' => $booth->menus->items
         ];

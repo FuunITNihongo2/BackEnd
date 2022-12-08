@@ -159,9 +159,12 @@ class ItemController extends Controller
                 ];
                 return response()->json($response, 200);
             }
+            else{
+                return response()->json(['message' => "Item not found!"], 404);
+            }
         }
         else{
-            return response()->json(['message' => "Item not found!"], 404);
+            return response()->json(['message' => "Unauthorization"], 401);
         }
     }
 

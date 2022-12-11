@@ -34,6 +34,31 @@ class HomeController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_v2()
+    {
+        // most popular store
+        $booths = Booth::whereNotNull('owner_id')
+                    ->where('active_state',true)
+                    ->orderBy('total_orders')
+                    ->get()
+                    ->load('users','users.images')
+                    ->load('images');
+        // most popular item
+        $items = Item::orderBy('orders')
+                    ->get()
+                    ->load('images');
+        $response = [
+            'mostPopularBooths' => $booths,
+            'mostPopularItems' => $items,
+        ];
+        return response()->json($response, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

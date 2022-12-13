@@ -204,11 +204,26 @@ class AuthController extends BaseController
     public function accept(Request $request)
     {
         try {
-            $request->user()->tokens()->delete();
-            return $this->sendResponse('','User logout successfully.');
+            $invite = Invite::where('token',$request->token);
+            if($invite){    
+                $invite->update([
+                    'accepted' => 1,
+                    'accepted_at' => \Carbon\Carbon::now()
+                ]);
+                $user = User::create([
+                    'name' => 'New User',
+                    'email' => $invite['email'],
+                    'accepted' => 1,
+                    'password' => $invite['password'],
+                    'created_at' =>  \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ]);
+                return response()->json('message','Welcome');
+            }
+            return response()->json('error', "Can't find this invitation");
         }
         catch (Exceptions $e){
-            return $this->sendError('Error.', ['error'=>$e]);
+            return response()->json('error', $e);
         }
     }
     /**

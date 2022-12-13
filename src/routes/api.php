@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('home', HomeController::class);
 Route::get('v2/home', [HomeController::class,'index_v2']);
 // Route::resource('booth', BoothController::class);
+Route::get('accepted', [AuthController::class,'accept'])->name('user.accept');
 Route::get('booth', [BoothController::class,'index'])->name('booth.index');
 Route::get('booth/{booth}', [BoothController::class,'show'])->name('booth.show');
 Route::put('booth/{booth}', [BoothController::class,'update'])->name('booth.update');

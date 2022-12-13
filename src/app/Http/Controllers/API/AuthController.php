@@ -168,6 +168,7 @@ class AuthController extends BaseController
             while (Invite::where('token', $token)->first());
             //create a new invite record
             $invite = Invite::create([
+                'email' => $request->name,
                 'email' => $request->get('email'),
                 'token' => $token,
                 'password' => $password
@@ -211,7 +212,7 @@ class AuthController extends BaseController
                     'accepted_at' => \Carbon\Carbon::now()
                 ]);
                 $user = User::create([
-                    'name' => 'New User',
+                    'name' => $invite['name'],
                     'email' => $invite['email'],
                     'accepted' => 1,
                     'password' => $invite['password'],

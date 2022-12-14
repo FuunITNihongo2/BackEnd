@@ -8,6 +8,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
@@ -179,7 +180,7 @@ class ItemController extends Controller
         $user = Auth::user();
         $item->load('menu','menu.booth','menu.booth.user');
         try{
-            if(($user->id===$item->menu->booth->user->id)||($user->role === User::ROLE_ADMIN)){
+            if(($user->id === $item->menu->booth->user->id)||($user->role === User::ROLE_ADMIN)){
                 if($item){
                     $item->delete();
                     $items = Item::all();  

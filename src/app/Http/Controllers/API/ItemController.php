@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Item;
+use App\Models\User;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
@@ -178,9 +179,9 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         $user = Auth::user();
-        $item->load('menu','menu.booth')->load('menu.booth.user');
+        $item->load('menu','menu.booth')->load('menu.booth.users');
         try{
-            if(($user->id === $item->menu->booth->user->id)||($user->role_id === User::ROLE_ADMIN)){
+            if(($user->id === $item->menu->booth->users->id)||($user->role_id === User::ROLE_ADMIN)){
                 if($item){
                     $item->delete();
                     $items = Item::all();  

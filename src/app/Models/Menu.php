@@ -10,7 +10,7 @@ class Menu extends Model
     use HasFactory;
     public function booth()
     {
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Booth::class);
     }
     public function items()
     {

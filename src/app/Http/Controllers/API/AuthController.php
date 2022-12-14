@@ -37,7 +37,7 @@ class AuthController extends BaseController
             $success['avatar'] =  Image::where('imageable_id',$user->id)
                                     ->where('imageable_type','App\Models\User')
                                     ->first();
-            if($user->role === User::ROLE_MANAGER){
+            if($user->role_id === User::ROLE_MANAGER){
                 $user->load('booth');
                 $success['booth'] =  $user->booth->id;
             }

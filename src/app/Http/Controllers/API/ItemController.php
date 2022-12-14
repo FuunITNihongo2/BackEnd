@@ -178,9 +178,9 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         $user = Auth::user();
-        $item->load('menu','menu.booth','menu.booth.user');
+        $item->load('menu','menu.booth')->load('menu.booth.user');
         try{
-            if(($user->id === $item->menu->booth->user->id)||($user->role === User::ROLE_ADMIN)){
+            if(($user->id === $item->menu->booth->user->id)||($user->role_id === User::ROLE_ADMIN)){
                 if($item){
                     $item->delete();
                     $items = Item::all();  

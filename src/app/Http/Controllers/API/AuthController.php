@@ -30,6 +30,7 @@ class AuthController extends BaseController
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password]))
         { 
             $user = Auth::user();
+            $success['id'] =  $user->id; 
             $success['token'] =  $user->createToken('MyApp')->plainTextToken; 
             $success['fullname'] =  $user->fullname;
             $success['nickname'] =  $user->nickname;
@@ -39,7 +40,7 @@ class AuthController extends BaseController
                                     ->first();
             if($user->role_id === User::ROLE_MANAGER){
                 $user->load('booth');
-                $success['booth'] =  $user->booth->id;
+                $success['booth'] =  $user->booth;
             }
             $user->load('role');
             $success['role'] =  $user->role->name;

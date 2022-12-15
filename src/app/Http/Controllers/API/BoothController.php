@@ -37,9 +37,32 @@ class BoothController extends Controller
      * @param  \App\Http\Requests\StoreBoothRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBoothRequest $request)
+    public function store(Request $request)
     {
-        //
+        try{
+                $booth = Booth::create([
+                    'name' => $request->name,
+                    'address' => $request->address,
+                    'total_order' => 0,
+                    'active_state' => False,
+                    'owner_id' => 1,
+                ]);
+                $link = Storage::disk('s3')->put('images/booths', $request->file('image'));
+                $link = Storage::disk('s3')->url($link);
+                $image->create([
+                    'name' => $booth->name.'_image',
+                    'imageable_id'=> $booth->id,
+                    'imageable_type' => 'App\Models\Booth',
+                    'link' => $link,
+                ]);
+                $response = [
+                    'data' => $booth
+                ];
+                return response()->json($response, 200);
+        }
+        catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
     }
 
     /**
@@ -119,6 +142,61 @@ class BoothController extends Controller
                         'updated_at' => \Carbon\Carbon::now(),
                     ]);
                 }
+                $response = [
+                    'data' => $booth
+                ];
+                return response()->json($response, 200);
+            }
+            else{
+                return response()->json(['message' => "Can't find booth"], 404);
+            }
+        }
+        catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateBoothRequest  $request
+     * @param  \App\Models\Booth  $booth
+     * @return \Illuminate\Http\Response
+     */
+    public function changeOwner(Request $request, Booth $booth)
+    {
+        try{
+            if ($booth){
+                $booth->load('images');
+                $booth->update(['owner_id'=>$request->owner_id]);
+                $response = [
+                    'data' => $booth
+                ];
+                return response()->json($response, 200);
+            }
+            else{
+                return response()->json(['message' => "Can't find booth"], 404);
+            }
+        }
+        catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateBoothRequest  $request
+     * @param  \App\Models\Booth  $booth
+     * @return \Illuminate\Http\Response
+     */
+
+    public function changeState(Request $request, Booth $booth)
+    {
+        try{
+            if ($booth){
+                $booth->load('images');
+                $booth->update(['active_state'=>$request->state]);
                 $response = [
                     'data' => $booth
                 ];

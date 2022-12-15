@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->string('email');
+            $table->string('password');
             $table->string('token', 16)->unique();
+            $table->boolean('accepted')->default(0);
+            $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
         });
     }

@@ -38,20 +38,20 @@ class UserSeeder extends Seeder
             'imageable_id' => $admin->id,
             'imageable_type' => 'App\Models\User'
         ]);
-        User::factory()
-        ->count(50)
-        ->create([
-            'role_id' => User::ROLE_MANAGER,
-        ])
-        ->each(function($user){
-            $link = Storage::disk('s3')->put('images/avatars/'.$user->id.'.png', file_get_contents(storage_path('app\public\image\default.png')));
-            $link = Storage::disk('s3')->url($link);
-            Image::insert([
-                'name' => $user->fullname.'_avatar',  
-                'link' => 'https://itnihongo2.s3.ap-southeast-1.amazonaws.com/images/avatars/'.$user->id.'.png',
-                'imageable_id' => $user->id,
-                'imageable_type' => 'App\Models\User'
-            ]);
-        });
+        // User::factory()
+        // ->count(50)
+        // ->create([
+        //     'role_id' => User::ROLE_MANAGER,
+        // ])
+        // ->each(function($user){
+        //     $link = Storage::disk('s3')->put('images/avatars/'.$user->id.'.png', file_get_contents(storage_path('app\public\image\default.png')));
+        //     $link = Storage::disk('s3')->url($link);
+        //     Image::insert([
+        //         'name' => $user->fullname.'_avatar',  
+        //         'link' => 'https://itnihongo2.s3.ap-southeast-1.amazonaws.com/images/avatars/'.$user->id.'.png',
+        //         'imageable_id' => $user->id,
+        //         'imageable_type' => 'App\Models\User'
+        //     ]);
+        // });
         }
 }

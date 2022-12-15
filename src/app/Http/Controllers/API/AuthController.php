@@ -169,8 +169,8 @@ class AuthController extends BaseController
             while (Invite::where('token', $token)->first());
             //create a new invite record
             $invite = Invite::create([
-                'email' => $request->name,
-                'email' => $request->get('email'),
+                'email' => $request->email,
+                'name' => $request->name,
                 'token' => $token,
                 'password' => $password
             ]);
@@ -192,7 +192,7 @@ class AuthController extends BaseController
             ->html($message);
             });
             // redirect back where we came from
-            return response()->json(['message', 'verification request sent'], 200);
+            return response()->json(['message' => 'verification request sent'], 200);
         }
         else{
             return response()->json(['message' => "Permission denied"], 403);
@@ -206,26 +206,28 @@ class AuthController extends BaseController
     public function accept(Request $request)
     {
         try {
-            $invite = Invite::where('token',$request->token);
+            $invite = Invite::where('token',$request->token)->first();
             if($invite){    
                 $invite->update([
                     'accepted' => 1,
                     'accepted_at' => \Carbon\Carbon::now()
                 ]);
                 $user = User::create([
-                    'name' => $invite['name'],
-                    'email' => $invite['email'],
-                    'accepted' => 1,
-                    'password' => $invite['password'],
+                    'fullname' => $invite->name,
+                    'nickname' => $invite->name,
+                    'email' => $invite->email,
+                    'password' => $invite->password,
+                    'role_id' => User::ROLE_MANAGER,
+                    'phone_number' => 00000000000,
                     'created_at' =>  \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                 ]);
-                return response()->json('message','Welcome');
+                return response()->json(['message'=>'Welcome'], 200);
             }
-            return response()->json('error', "Can't find this invitation");
+            return response()->json(['error' => "Can't find this invitation"],404);
         }
         catch (Exceptions $e){
-            return response()->json('error', $e);
+            return response()->json(['error'=> $e],400);
         }
     }
     /**

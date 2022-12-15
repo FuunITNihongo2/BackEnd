@@ -44,7 +44,7 @@ class BoothController extends Controller
                     'name' => $request->name,
                     'address' => $request->address,
                     'total_order' => 0,
-                    'active_state' => False,
+                    'active_state' => 0,
                     'owner_id' => 1,
                 ]);
                 $link = Storage::disk('s3')->put('images/booths', $request->file('image'));

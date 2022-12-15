@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('profile/{user}',   [AuthController::class, 'deleteProfile'])->name('user.delete');
     Route::post('invite', [AuthController::class, 'invite'])->name('user.invite');
     Route::delete('item/{item}', [ItemController::class,'destroy'])->name('item.delete');
+    Route::post('booth', [BoothController::class,'store'])->name('booth.store');
+    Route::post('booth/{booth}/owner', [BoothController::class,'changeOwner'])->name('booth.changeOwner');
+    Route::post('booth/{booth}/state', [BoothController::class,'changeState'])->name('booth.changeState');
   });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -44,9 +47,6 @@ Route::get('v2/home', [HomeController::class,'index_v2']);
 // Route::resource('booth', BoothController::class);
 Route::get('accepted', [AuthController::class,'accept'])->name('user.accept');
 Route::get('booth', [BoothController::class,'index'])->name('booth.index');
-Route::post('booth', [BoothController::class,'store'])->name('booth.store');
-Route::post('booth/{booth}/owner', [BoothController::class,'changeOwner'])->name('booth.changeOwner');
-Route::post('booth/{booth}/state', [BoothController::class,'changeState'])->name('booth.changeState');
 Route::get('booth/{booth}', [BoothController::class,'show'])->name('booth.show');
 Route::put('booth/{booth}', [BoothController::class,'update'])->name('booth.update');
 Route::get('booth/{booth}/item', [BoothController::class,'showItem'])->name('booth.item');

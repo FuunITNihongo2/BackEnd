@@ -10,6 +10,7 @@ use App\Models\Booth;
 use App\Models\Invite;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Mail;

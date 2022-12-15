@@ -21,7 +21,7 @@ class BoothController extends Controller
     public function index()
     {
         $booths = Booth::whereNotNull('owner_id')
-                    ->where('active_state',true)
+                    // ->where('active_state',true)
                     ->orderBy('total_orders')
                     ->get()
                     ->load('users','images');

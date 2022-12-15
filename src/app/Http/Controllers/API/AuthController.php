@@ -178,7 +178,7 @@ class AuthController extends BaseController
             $message="";
             $message.="<h1>Hi ".$request->name."</h1>";
             $message.="<p>Our admin invited you to our website</p>";
-            $message.="<h2>Please verify <a href='http://www.frontend.com/verify/".$token."'>Verify</a> </h2>";
+            $message.="<h2>Please verify <a href='https://fuun-team.vercel.app/verify/".$token."'>Verify</a> </h2>";
             $message.="<h3>Your password is: ".$password.", please change it as soon as possible! </h3>";
             $data = 
             [

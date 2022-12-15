@@ -216,7 +216,7 @@ class AuthController extends BaseController
                     'fullname' => $invite->name,
                     'nickname' => $invite->name,
                     'email' => $invite->email,
-                    'password' => $invite->password,
+                    'password' => Hash::make($invite->password),
                     'role_id' => User::ROLE_MANAGER,
                     'phone_number' => 00000000000,
                     'created_at' =>  \Carbon\Carbon::now(),

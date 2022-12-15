@@ -49,7 +49,7 @@ class BoothController extends Controller
                 ]);
                 $link = Storage::disk('s3')->put('images/booths', $request->file('image'));
                 $link = Storage::disk('s3')->url($link);
-                $image->create([
+                $image = Image::create([
                     'name' => $booth->name.'_image',
                     'imageable_id'=> $booth->id,
                     'imageable_type' => 'App\Models\Booth',

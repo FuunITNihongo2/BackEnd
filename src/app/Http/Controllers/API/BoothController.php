@@ -144,6 +144,7 @@ class BoothController extends Controller
         if($booth){
             $booth->delete();
             $booths = Booth::all();  
+            return response()->json(['message'=>'Booth deleted'], 200);
         }
         else 
             return response()->json(['message'=>'Booth not found!'], 404);

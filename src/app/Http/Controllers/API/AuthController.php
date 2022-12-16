@@ -223,14 +223,6 @@ class AuthController extends BaseController
                     'created_at' =>  \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                 ]);
-                $link = Storage::disk('s3')->put('images/avatars/1.png', file_get_contents(storage_path('app\public\image\default.png')));
-                $link = Storage::disk('s3')->url($link);
-                Image::insert([
-                    'name' => $user->fullname.'_avatar',  
-                    'link' => 'https://itnihongo2.s3.ap-southeast-1.amazonaws.com/images/avatars/1.png',
-                    'imageable_id' => $user->id,
-                    'imageable_type' => 'App\Models\User'
-                ]);
                 return response()->json(['message'=>'Welcome'], 200);
             }
             return response()->json(['error' => "Can't find this invitation"],404);
